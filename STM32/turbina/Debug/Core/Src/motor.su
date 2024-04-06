@@ -1,0 +1,5 @@
+../Core/Src/motor.c:21:6:motor_str_init	16	static
+../Core/Src/motor.c:32:6:motor_calculate_speed	24	static
+../Core/Src/motor.c:49:6:motor_update_count	16	static
+../Core/Src/motor.c:55:6:motor_set_speed	16	static
+../Core/Src/motor.c:69:6:motor_set_measured_speed	16	static

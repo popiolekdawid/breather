@@ -1,0 +1,56 @@
+stm32
+#include "main.h"
+#include <string.h>
+#include <stdlib.h>
+
+UART_HandleTypeDef huart2; // Replace with your UART handler
+
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_USART2_UART_Init(void); // Replace USART2 with your UART
+
+int main(void) {
+    HAL_Init();
+    SystemClock_Config();
+    MX_GPIO_Init();
+    MX_USART2_UART_Init(); // Initialize UART
+
+    char uart_buffer[50];
+    int random_number1, random_number2, random_number3;
+
+    while (1) {
+        // Generate three random numbers
+        random_number1 = rand() % 10 + 1;
+        random_number2 = rand() % 10 + 1;
+        random_number3 = rand() % 10 + 1;
+
+        // Prepare the string to send
+        snprintf(uart_buffer, sizeof(uart_buffer), "%d,%d,%d\n", random_number1, random_number2, random_number3);
+
+        // Send the string over UART
+        HAL_UART_Transmit(&huart2, (uint8_t*)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+
+        // Delay for demonstration purposes (e.g., 1 second)
+        HAL_Delay(1000);
+    }
+}
+
+// The rest of the generated SystemClock_Config, MX_GPIO_Init, and MX_USART2_UART_Init functions...
+
+python
+
+import serial
+
+     def read_from_uart(self, dt):
+        if self.ser.in_waiting:
+            data = self.ser.readline().decode('utf-8').strip()
+            values = data.split(',')
+            if len(values) == 3:
+                try:
+                    volume, pressure, flow = map(int, values)
+                    self.volume_data.append(volume)
+                    self.pressure_data.append(pressure)
+                    self.flow_data.append(flow)
+                except ValueError:
+                    pass  # Handle the exception if conversion fails
+
